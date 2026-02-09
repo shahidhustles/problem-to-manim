@@ -1,4 +1,4 @@
-import { generateText, stepCountIs, createGateway } from "ai";
+import { streamText, stepCountIs, createGateway } from "ai";
 import { SYSTEM_PROMPT } from "../agent/system-prompt.js";
 import { getTextEditorTool, getBashTool } from "../agent/tools.js";
 import { randomUUID } from "crypto";
@@ -26,8 +26,8 @@ export async function handleGenerate(body: GenerateRequest) {
 
   mkdirSync(outputDir, { recursive: true });
 
-  console.log("🚀 Calling AI model with generateText...");
-  const result = await generateText({
+  console.log("🚀 Calling AI model with streamText...");
+  const result = streamText({
     model: gateway(model || "anthropic/claude-haiku-4.5"),
     system: SYSTEM_PROMPT,
     prompt: `Create a Manim animation for the topic: "${topic}"\n\nWrite all output files (JSON, TXT, PY) into the directory: ${outputDir}`,
@@ -36,16 +36,30 @@ export async function handleGenerate(body: GenerateRequest) {
       bash: getBashTool(),
     },
     stopWhen: stepCountIs(20),
+    onError({ error }) {
+      console.error("❌ streamText error:", error);
+    },
   });
 
+  for await (const textPart of result.textStream) {
+    process.stdout.write(textPart);
+  }
+  process.stdout.write("\n");
+
+  const [text, usage, steps] = await Promise.all([
+    result.text,
+    result.usage,
+    result.steps,
+  ]);
+
   console.log("✨ AI generation completed");
-  console.log("📈 Total steps executed:", result.steps?.length ?? 0);
-  console.log("📊 Token usage:", result.usage);
+  console.log("📈 Total steps executed:", steps?.length ?? 0);
+  console.log("📊 Token usage:", usage);
 
   return {
     requestId,
-    text: result.text,
-    usage: result.usage,
-    steps: result.steps?.length ?? 0,
+    text,
+    usage,
+    steps: steps?.length ?? 0,
   };
 }

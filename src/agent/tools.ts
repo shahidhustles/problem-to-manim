@@ -20,6 +20,13 @@ export const getTextEditorTool = () => {
 
       switch (command) {
         case "view": {
+          if (view_range) {
+            console.log(
+              `🧰 Tool: Reading ${path} (lines ${view_range[0]}-${view_range[1]})`
+            );
+          } else {
+            console.log(`🧰 Tool: Reading ${path}`);
+          }
           if (!existsSync(fullPath)) return `Error: File ${path} not found`;
           const content = readFileSync(fullPath, "utf-8");
           if (view_range) {
@@ -30,12 +37,14 @@ export const getTextEditorTool = () => {
         }
 
         case "create": {
+          console.log(`🧰 Tool: Writing ${path}`);
           mkdirSync(dirname(fullPath), { recursive: true });
           writeFileSync(fullPath, file_text!, "utf-8");
           return `File created: ${path}`;
         }
 
         case "str_replace": {
+          console.log(`🧰 Tool: Updating ${path} (str_replace)`);
           if (!existsSync(fullPath))
             return `Error: File ${path} not found for str_replace`;
           const current = readFileSync(fullPath, "utf-8");
@@ -48,6 +57,7 @@ export const getTextEditorTool = () => {
         }
 
         case "insert": {
+          console.log(`🧰 Tool: Inserting into ${path} at line ${insert_line}`);
           if (!existsSync(fullPath))
             return `Error: File ${path} not found for insert`;
           const lines = readFileSync(fullPath, "utf-8").split("\n");
@@ -67,9 +77,11 @@ export const getBashTool = () => {
   return anthropic.tools.bash_20250124({
     execute: async ({ command, restart }) => {
       if (restart) {
+        console.log("🧰 Tool: Bash session restarted");
         return "Bash session restarted";
       }
       try {
+        console.log(`🧰 Tool: Running command: ${command}`);
         const result = execSync(command, {
           timeout: 30000,
           encoding: "utf-8",
