@@ -25,6 +25,7 @@ Return ONLY valid JSON with these exact keys:
 ```
 
 **Example Output**:
+
 ```json
 {
   "core_concept": "quantum entanglement",
@@ -64,6 +65,7 @@ Return ONLY valid JSON with these exact keys:
 ```
 
 **Example Output**:
+
 ```json
 {
   "subject": "Physics",
@@ -189,6 +191,7 @@ DO NOT build a concept prerequisite tree. Build a SOLUTION STEP tree.
 ```
 
 **Example Output (Problem-Solving Mode)**:
+
 ```json
 {
   "problem": "Find max height and range for projectile with u=20m/s at θ=30°",
@@ -259,6 +262,7 @@ Return JSON with these keys:
 ```
 
 **Example Output**:
+
 ```json
 {
   "equations": [
@@ -309,6 +313,7 @@ Return JSON with these keys:
 ```
 
 **Example Output (Problem-Solving Mode)**:
+
 ```json
 {
   "equation_before": "h_{max} = ?",
@@ -365,6 +370,7 @@ Return JSON with these keys:
 ```
 
 **Example Output**:
+
 ```json
 {
   "elements": ["equation_main", "graph_function", "axes", "labels"],
@@ -429,10 +435,18 @@ Return JSON with these keys:
 ```
 
 **Example Output (Problem-Solving Mode)**:
+
 ```json
 {
   "problem_visual_type": "trajectory",
-  "elements": ["axes", "projectile_path", "velocity_vector", "components", "height_marker", "range_marker"],
+  "elements": [
+    "axes",
+    "projectile_path",
+    "velocity_vector",
+    "components",
+    "height_marker",
+    "range_marker"
+  ],
   "color_coding": {
     "given_values": ["u", "theta", "g"],
     "unknown_values": ["h_max", "R"],
@@ -484,6 +498,7 @@ Format each segment as a complete scene description for Manim.
 ```
 
 **Segment Request Format**:
+
 ```
 Write a 200-300 word narrative segment for a Manim animation.
 
@@ -554,17 +569,21 @@ Return a complete scene description with solving and explaining phases clearly m
 ```
 
 **Example Output (Problem-Solving Mode)**:
+
 ```markdown
 ## Scene 2: Step 1 - Decompose Velocity (0:10 - 0:30)
 
 ### SOLVING PHASE (15 seconds)
+
 Display the initial velocity vector as a GREEN arrow: u = 20 m/s at 30° from horizontal.
 Draw a right triangle showing the decomposition with dashed lines.
 Write the equations:
+
 - u_x = u \\cos(\\theta) = 20 \\cos(30°) = 20 \\times 0.866
 - u_y = u \\sin(\\theta) = 20 \\sin(30°) = 20 \\times 0.5
 
 Highlight the current calculation in BLUE as you compute:
+
 - u_x = 17.32 m/s
 - u_y = 10 m/s
 
@@ -573,9 +592,11 @@ Animate vertical component appearing as ORANGE arrow along y-axis.
 Display results in ORANGE boxes next to each component.
 
 ### EXPLAINING PHASE (5 seconds)
+
 Display text: "We resolve the velocity vector using NCERT Class 10 trigonometry. Horizontal and vertical motions are independent."
 
 ### Transition
+
 Fade out the triangle, keep component values visible at top-right for use in next steps.
 ```
 
@@ -664,23 +685,23 @@ def color_code_equation(self, equation, given_indices, unknown_indices, focus_in
 
 ## Temperature Settings
 
-| Agent | Temperature | Rationale |
-|-------|-------------|-----------|
-| ConceptAnalyzer | 0.3 | Consistent, focused extraction |
-| PrerequisiteExplorer (foundation) | 0.0 | Binary yes/no decision |
-| PrerequisiteExplorer (discovery) | 0.3 | Balanced creativity/consistency |
-| MathematicalEnricher | 0.3 | Accurate mathematics |
-| VisualDesigner | 0.5 | Creative but structured |
-| NarrativeComposer | 0.7 | Creative narrative flow |
-| CodeGenerator | 0.3 | Reliable, working code |
+| Agent                             | Temperature | Rationale                       |
+| --------------------------------- | ----------- | ------------------------------- |
+| ConceptAnalyzer                   | 0.3         | Consistent, focused extraction  |
+| PrerequisiteExplorer (foundation) | 0.0         | Binary yes/no decision          |
+| PrerequisiteExplorer (discovery)  | 0.3         | Balanced creativity/consistency |
+| MathematicalEnricher              | 0.3         | Accurate mathematics            |
+| VisualDesigner                    | 0.5         | Creative but structured         |
+| NarrativeComposer                 | 0.7         | Creative narrative flow         |
+| CodeGenerator                     | 0.3         | Reliable, working code          |
 
 ## Token Limits
 
-| Agent | Max Tokens | Purpose |
-|-------|------------|---------|
-| ConceptAnalyzer | 500 | Short JSON response |
-| PrerequisiteExplorer | 500 | JSON array of concepts |
-| MathematicalEnricher | 1500 | Equations and definitions |
-| VisualDesigner | 1500 | Visual specifications |
-| NarrativeComposer | 1500 | 200-300 word segment |
-| CodeGenerator | 8000 | Complete Python file |
+| Agent                | Max Tokens | Purpose                   |
+| -------------------- | ---------- | ------------------------- |
+| ConceptAnalyzer      | 500        | Short JSON response       |
+| PrerequisiteExplorer | 500        | JSON array of concepts    |
+| MathematicalEnricher | 1500       | Equations and definitions |
+| VisualDesigner       | 1500       | Visual specifications     |
+| NarrativeComposer    | 1500       | 200-300 word segment      |
+| CodeGenerator        | 8000       | Complete Python file      |

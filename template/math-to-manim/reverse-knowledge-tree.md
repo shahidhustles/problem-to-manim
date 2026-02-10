@@ -63,6 +63,7 @@ async def explore(concept: str, depth: int = 0) -> KnowledgeNode:
 A concept is foundational if a typical high school graduate would understand it without further explanation.
 
 **Examples of foundation concepts:**
+
 - velocity, distance, time, acceleration
 - force, mass, energy
 - waves, frequency, wavelength
@@ -71,6 +72,7 @@ A concept is foundational if a typical high school graduate would understand it 
 - functions, graphs
 
 **Examples of non-foundation concepts:**
+
 - Lorentz transformations
 - gauge theory
 - differential geometry
@@ -100,6 +102,7 @@ Return ONLY a JSON array of concept names.
 ## Caching Strategy
 
 To avoid redundant API calls:
+
 1. **In-memory cache**: Store discovered prerequisites by concept name
 2. **Optional Atlas integration**: Use Nomic Atlas for semantic caching and search
 
@@ -154,24 +157,26 @@ def topological_sort(root: KnowledgeNode) -> List[KnowledgeNode]:
 ```
 
 This ensures:
+
 - Foundation concepts appear first in animation
 - Each concept builds on previously explained ones
 - Viewers have necessary background before advanced topics
 
 ## Configuration Options
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `max_depth` | 4 | Maximum tree depth before forcing foundation |
-| `max_prerequisites` | 5 | Maximum prerequisites per concept |
-| `cache_enabled` | True | Use in-memory caching |
-| `atlas_enabled` | False | Use Nomic Atlas for persistent caching |
+| Parameter           | Default | Description                                  |
+| ------------------- | ------- | -------------------------------------------- |
+| `max_depth`         | 4       | Maximum tree depth before forcing foundation |
+| `max_prerequisites` | 5       | Maximum prerequisites per concept            |
+| `cache_enabled`     | True    | Use in-memory caching                        |
+| `atlas_enabled`     | False   | Use Nomic Atlas for persistent caching       |
 
 ## Example Tree
 
 **Input**: "Explain quantum tunneling"
 
 **Generated Tree**:
+
 ```
 quantum tunneling (depth 0)
 ├─ wave-particle duality (depth 1)
@@ -185,6 +190,7 @@ quantum tunneling (depth 0)
 ```
 
 **Animation Order** (after topological sort):
+
 1. de Broglie wavelength
 2. wave function
 3. Heisenberg uncertainty principle
@@ -204,13 +210,13 @@ When operating in **problem-solving mode** for JEE/NEET problems, the system bui
 
 ### Key Differences
 
-| Aspect | Knowledge Tree (Teaching) | Solution Tree (Problem-Solving) |
-|--------|---------------------------|----------------------------------|
-| **Nodes represent** | Concepts to understand | Solution steps to execute |
-| **Edges represent** | "Prerequisite for" relationships | "Depends on previous step" |
-| **Foundation** | High school concepts | Given values + NCERT Class 10 formulas |
-| **Goal** | Build understanding from basics | Reach the answer from given data |
-| **Traversal** | Foundation concepts → target concept | Given values → final answer |
+| Aspect              | Knowledge Tree (Teaching)            | Solution Tree (Problem-Solving)        |
+| ------------------- | ------------------------------------ | -------------------------------------- |
+| **Nodes represent** | Concepts to understand               | Solution steps to execute              |
+| **Edges represent** | "Prerequisite for" relationships     | "Depends on previous step"             |
+| **Foundation**      | High school concepts                 | Given values + NCERT Class 10 formulas |
+| **Goal**            | Build understanding from basics      | Reach the answer from given data       |
+| **Traversal**       | Foundation concepts → target concept | Given values → final answer            |
 
 ### Data Structure: SolutionNode
 
@@ -272,6 +278,7 @@ async def explore_solution(problem: Dict, depth: int = 0) -> List[SolutionNode]:
 Foundation concepts for problem-solving mode are defined in `ncert-class10-foundation.md`. These include:
 
 **Physics Formulas** (use directly, no derivation):
+
 - Equations of motion: v = u + at, s = ut + ½at², v² = u² + 2as
 - Newton's second law: F = ma
 - Work-energy: W = Fs, KE = ½mv², PE = mgh
@@ -279,10 +286,12 @@ Foundation concepts for problem-solving mode are defined in `ncert-class10-found
 - Mirror/Lens formula: 1/f = 1/v ± 1/u
 
 **Chemistry Formulas**:
+
 - Mole concept: n = m/M
 - Stoichiometry from balanced equations
 
 **Mathematics Formulas**:
+
 - Quadratic formula: x = (-b ± √(b²-4ac)) / 2a
 - Trigonometric ratios: sin θ = opp/hyp, etc.
 - Distance formula: d = √((x₂-x₁)² + (y₂-y₁)²)
@@ -294,6 +303,7 @@ If a formula/concept appears in `ncert-class10-foundation.md`, mark as `is_found
 ### Example Solution Tree
 
 **Problem**:
+
 ```
 A projectile is fired with initial velocity 20 m/s at an angle of 30° with the horizontal.
 Given: u = 20 m/s, θ = 30°, g = 10 m/s²
@@ -301,6 +311,7 @@ Find: (a) Maximum height, (b) Range
 ```
 
 **Generated Solution Tree**:
+
 ```
 Problem: Projectile motion
 Given: {u: "20 m/s", θ: "30°", g: "10 m/s²"}
@@ -352,6 +363,7 @@ Step 6: calculate_range
 ```
 
 **Solution Order** (forward execution after topological sort):
+
 1. Identify given values (GREEN) and unknowns (YELLOW)
 2. Decompose velocity into components (use NCERT Class 10 trig)
 3. Apply kinematic formula for height (FOUNDATION - no derivation)
@@ -364,12 +376,14 @@ Each step depends on previous results, creating a clear solution progression fro
 ### Solution Tree vs Knowledge Tree Summary
 
 **Teaching Mode (Knowledge Tree)**:
+
 - Purpose: Explain a concept from first principles
 - Structure: Recursive prerequisites (concept dependencies)
 - Foundation: High school graduate baseline
 - Example node: "Heisenberg uncertainty" depends on "wave function"
 
 **Problem-Solving Mode (Solution Tree)**:
+
 - Purpose: Solve a specific problem step-by-step
 - Structure: Solution step dependencies
 - Foundation: NCERT Class 10 (see `ncert-class10-foundation.md`)

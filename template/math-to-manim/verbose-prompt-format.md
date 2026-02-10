@@ -15,6 +15,7 @@ The verbose prompt is the bridge between the knowledge tree and working Manim co
 # Manim Animation: {TARGET_CONCEPT}
 
 ## Overview
+
 This animation builds {TARGET_CONCEPT} from first principles through a carefully
 constructed knowledge tree. Each concept is explained with mathematical rigor
 and visual clarity, building from foundational ideas to advanced understanding.
@@ -24,6 +25,7 @@ and visual clarity, building from foundational ideas to advanced understanding.
 **Estimated Duration**: {TOTAL_SECONDS} seconds ({MINUTES}:{SECONDS:02d})
 
 ## Animation Requirements
+
 - Use Manim Community Edition (manim)
 - All LaTeX must be in raw strings: r"$\\frac{a}{b}$"
 - Use MathTex() for equations, Text() for labels
@@ -34,6 +36,7 @@ and visual clarity, building from foundational ideas to advanced understanding.
 ## Scene Sequence
 
 ### Scene 1: {CONCEPT_1}
+
 **Timestamp**: 0:00 - 0:15
 
 Begin by fading in the coordinate axes using FadeIn(axes) with WHITE color.
@@ -52,6 +55,7 @@ FadeOut(Group(axes, equation, line, label)).
 ---
 
 ### Scene 2: {CONCEPT_2}
+
 **Timestamp**: 0:15 - 0:30
 
 {SIMILAR DETAILED DESCRIPTION}
@@ -59,6 +63,7 @@ FadeOut(Group(axes, equation, line, label)).
 ---
 
 ### Scene N: {TARGET_CONCEPT}
+
 **Timestamp**: {START} - {END}
 
 This is the culminating scene. Transform the previous elements to show how
@@ -89,32 +94,42 @@ colors, and animations.
 Each scene segment should include:
 
 ### 1. Timestamp Header
+
 ```markdown
 ### Scene 3: Schrödinger Equation
+
 **Timestamp**: 0:30 - 0:45
 ```
 
 ### 2. Opening Action
+
 Start with a verb describing the first animation:
+
 - "Begin by fading in..."
 - "Start with the transformation of..."
 - "Open by displaying..."
 
 ### 3. Equation Display
+
 Include exact LaTeX with positioning:
+
 ```
 Display the equation r"$i\hbar\frac{\partial}{\partial t}\Psi = \hat{H}\Psi$"
 using MathTex() in BLUE color, centered at ORIGIN.
 ```
 
 ### 4. Visual Elements
+
 Specify all objects with:
+
 - Manim class: `MathTex()`, `Text()`, `Axes()`, `Circle()`
 - Color: `BLUE`, `RED`, `YELLOW`, etc.
 - Position: `ORIGIN`, `UP`, `LEFT`, `.to_edge()`, `.next_to()`
 
 ### 5. Animation Sequence
+
 List animations in order:
+
 ```
 1. FadeIn(axes) over 1 second
 2. Write(equation) over 2 seconds
@@ -125,7 +140,9 @@ List animations in order:
 ```
 
 ### 6. Transition Hook
+
 End with setup for next scene:
+
 ```
 The equation remains on screen, shifted to the upper left,
 as we introduce the next concept.
@@ -135,32 +152,33 @@ as we introduce the next concept.
 
 Maintain consistency across scenes:
 
-| Element Type | Recommended Color |
-|--------------|-------------------|
-| Primary equations | BLUE |
-| Secondary equations | YELLOW |
-| Axes/grids | WHITE or GREY |
-| Graphs/curves | YELLOW, GREEN |
-| Labels | GREEN |
-| Highlights | GOLD or ORANGE |
-| Warnings/errors | RED |
-| Success/completion | GREEN |
+| Element Type        | Recommended Color |
+| ------------------- | ----------------- |
+| Primary equations   | BLUE              |
+| Secondary equations | YELLOW            |
+| Axes/grids          | WHITE or GREY     |
+| Graphs/curves       | YELLOW, GREEN     |
+| Labels              | GREEN             |
+| Highlights          | GOLD or ORANGE    |
+| Warnings/errors     | RED               |
+| Success/completion  | GREEN             |
 
 ## Timing Guidelines
 
-| Content Type | Duration |
-|--------------|----------|
-| Simple equation display | 2-3 seconds |
-| Complex equation with explanation | 4-5 seconds |
-| Graph/visualization creation | 3-4 seconds |
-| Transition between concepts | 1-2 seconds |
-| Pause for comprehension | 1 second |
-| Complete scene | 15-30 seconds |
+| Content Type                      | Duration      |
+| --------------------------------- | ------------- |
+| Simple equation display           | 2-3 seconds   |
+| Complex equation with explanation | 4-5 seconds   |
+| Graph/visualization creation      | 3-4 seconds   |
+| Transition between concepts       | 1-2 seconds   |
+| Pause for comprehension           | 1 second      |
+| Complete scene                    | 15-30 seconds |
 
 ## Example: Complete Scene Segment
 
 ```markdown
 ### Scene 4: Wave-Particle Duality
+
 **Timestamp**: 0:45 - 1:05
 
 Begin by transforming the previous probability wave into a particle
@@ -172,6 +190,7 @@ MathTex() in BLUE color, positioned at the TOP using .to_edge(UP).
 Write the equation over 2 seconds.
 
 Below the equation, create a Text() label explaining each variable:
+
 - r"$\lambda$" = wavelength (GREEN)
 - r"$h$" = Planck's constant (YELLOW)
 - r"$p$" = momentum (ORANGE)
@@ -210,10 +229,11 @@ For competitive exam problem solutions, use this alternative structure that emph
 
 ### Complete Template for Problem-Solving
 
-```markdown
+````markdown
 # Manim Animation: {PROBLEM_TITLE}
 
 ## Problem Statement
+
 {FULL_PROBLEM_TEXT_IN_LATEX}
 
 Given: {LIST_GIVEN_VALUES}
@@ -221,11 +241,13 @@ Find: {LIST_UNKNOWNS}
 Constraints: {LIST_CONSTRAINTS}
 
 ## Overview
+
 **Subject**: {Physics/Chemistry/Mathematics/Biology}
 **Topic**: {specific topic, e.g., "projectile motion"}
 **Solution Steps**: {N steps}
 **Estimated Duration**: {N × 20} seconds (15s solving + 5s explaining per step)
 **Color Coding**:
+
 - Given values: GREEN
 - Unknown values: YELLOW
 - Current focus: BLUE
@@ -233,6 +255,7 @@ Constraints: {LIST_CONSTRAINTS}
 - Final answers: GOLD
 
 ## Animation Requirements
+
 - Use Manim Community Edition (manim)
 - Import GOLD color explicitly: from manim import GOLD
 - All LaTeX in raw strings: r"$\\frac{a}{b}$"
@@ -247,10 +270,12 @@ Constraints: {LIST_CONSTRAINTS}
 
 Display the complete problem statement at the top of the screen using Tex().
 Break into parts:
+
 - Given values in GREEN boxes
 - Unknown values in YELLOW boxes
 
 Use VGroup to organize:
+
 ```python
 problem_given = VGroup(
 Tex(r"$u = 20 \text{ m/s}$").set_color(GREEN),
@@ -263,6 +288,7 @@ problem_find = VGroup(
   Tex(r"$R = ?$").set_color(YELLOW)
 ).arrange(DOWN).to_edge(RIGHT)
 ```
+````
 
 FadeIn both groups over 2 seconds. Wait 1 second for comprehension.
 
@@ -275,6 +301,7 @@ FadeIn both groups over 2 seconds. Wait 1 second for comprehension.
 {DETAILED_MANIM_INSTRUCTIONS_FOR_MATHEMATICAL_WORK}
 
 Example structure:
+
 - Write the equation BEFORE transformation: r"$equation_before$" in standard WHITE
 - Highlight the current focus term/variable in BLUE
 - Show substitution step-by-step (given values in GREEN, previous results in ORANGE)
@@ -283,6 +310,7 @@ Example structure:
 
 Specific instructions for this step:
 {STEP_SPECIFIC_VISUAL_INSTRUCTIONS}
+
 - Element positions (LEFT, RIGHT, UP, DOWN, ORIGIN, coordinates)
 - Colors for each element
 - Animation timing (Create over 2s, Transform over 1s, etc.)
@@ -294,6 +322,7 @@ Display explanatory text using Tex() or Text() in WHITE, positioned below the eq
 "We use [CONCEPT_NAME] because [BRIEF_REASON in 1-2 sentences]."
 
 Example:
+
 ```python
 explanation = Text(
   "We resolve the velocity using trigonometry because\nhorizontal and vertical motions are independent.",
@@ -309,6 +338,7 @@ Reference: "NCERT Class 10 [topic]" or "JEE/NEET [advanced topic]"
 #### Transition (1 second)
 
 {HOW_TO_TRANSITION_TO_NEXT_STEP}
+
 - What to keep visible (e.g., component values for later use)
 - What to fade out
 - Repositioning if needed
@@ -320,6 +350,7 @@ Reference: "NCERT Class 10 [topic]" or "JEE/NEET [advanced topic]"
 After completing all solution steps, create a final scene that:
 
 1. Displays all final answers in GOLD:
+
 ```python
 final_answers = VGroup(
   MathTex(r"h_{max} = 5 \text{ m}").set_color(GOLD),
@@ -328,6 +359,7 @@ final_answers = VGroup(
 ```
 
 2. Emphasizes with animation:
+
 ```python
 answer_boxes = VGroup(
   *[SurroundingRectangle(ans, color=GOLD, buff=0.2) for ans in final_answers]
@@ -339,7 +371,7 @@ Circumscribe(final_answers, color=GOLD, time_width=1.5)
 
 3. Wait 2 seconds for final emphasis
 
-```
+````
 
 ### Example: Complete Problem-Solving Scene
 
@@ -357,16 +389,18 @@ velocity_vector = Arrow(
   color=GREEN
 )
 velocity_label = MathTex(r"\\vec{u} = 20 \text{ m/s}").set_color(GREEN).next_to(velocity_vector, UP)
-```
+````
 
 Create the vector with `GrowArrow(velocity_vector)` over 1 second, then Write the label over 1 second.
 
 Draw a right triangle showing the decomposition:
+
 - Horizontal component: DashedLine from ORIGIN to [3.46, 0, 0] in ORANGE
 - Vertical component: DashedLine from [3.46, 0, 0] to [3.46, 2, 0] in ORANGE
 - Right angle indicator at [3.46, 0, 0]
 
 Write the equations at the RIGHT side of screen:
+
 ```python
 equations = VGroup(
   MathTex(r"u_x = u \\cos(\\theta)").set_color(BLUE),  # Current focus
@@ -375,14 +409,17 @@ equations = VGroup(
 ```
 
 Highlight calculations in BLUE as you show:
+
 - $u_x = 20 \\cos(30°) = 20 \\times 0.866 = 17.32$
 - Transform equation to show numerical result
 
 Show component arrows appearing:
 -Horizontal arrow (ORANGE) along x-axis with label "u_x = 17.32 m/s" (ORANGE)
+
 - Vertical arrow (ORANGE) along y-axis with label "u_y = 10 m/s" (ORANGE)
 
 Display results in ORANGE rounded rectangles:
+
 ```python
 result_ux = VGroup(
   RoundedRectangle(corner_radius=0.1, color=ORANGE),
@@ -394,6 +431,7 @@ result_ux = VGroup(
 #### EXPLAINING PHASE (5 seconds)
 
 Display text at BOTTOM:
+
 ```python
 explanation = Text(
   "We resolve the velocity vector using NCERT Class 10 trigonometry.\n"
@@ -410,7 +448,8 @@ FadeOut(explanation)
 Fade out the triangle and original velocity vector.
 Keep the component value boxes (u_x, u_y in ORANGE) visible at top-right corner,
 scaled down to 0.6 and repositioned to [5, 3, 0] for use in subsequent calculations.
-```
+
+````
 
 ### Problem-Specific Visual Directives
 
@@ -465,16 +504,16 @@ u_y_value = MathTex(r"u_y = 10 \text{ m/s}").set_color(INTERMEDIATE_COLOR)
 # Final answer
 answer = MathTex(r"h_{max} = 5 \text{ m}").set_color(ANSWER_COLOR)
 answer_box = SurroundingRectangle(answer, color=ANSWER_COLOR, buff=0.15)
-```
+````
 
 ### Timing Guidelines for Problem-Solving
 
-| Scene Type | Duration |
-|------------|----------|
-| Problem display | 10 seconds |
-| Solution step (total) | 20 seconds |
-|  - Solving phase | 15 seconds |
-|  - Explaining phase | 5 seconds |
-| Transition between steps | Included in 20s |
-| Final answer emphasis | 5 seconds |
+| Scene Type                   | Duration                 |
+| ---------------------------- | ------------------------ |
+| Problem display              | 10 seconds               |
+| Solution step (total)        | 20 seconds               |
+| - Solving phase              | 15 seconds               |
+| - Explaining phase           | 5 seconds                |
+| Transition between steps     | Included in 20s          |
+| Final answer emphasis        | 5 seconds                |
 | **Total for N-step problem** | **10 + 20N + 5 seconds** |

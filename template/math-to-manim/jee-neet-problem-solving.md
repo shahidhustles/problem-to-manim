@@ -4,18 +4,18 @@ This document contains ALL problem-solving specific logic for the Math-to-Manim 
 
 ## Mode Comparison
 
-| Aspect | Teaching Mode | Problem-Solving Mode |
-|--------|---------------|----------------------|
-| **Input** | Concept name (e.g., "quantum tunneling") | LaTeX problem statement with Given/Find |
-| **Output Structure** | Concept tree (prerequisites) | Solution tree (steps) |
-| **Foundation Baseline** | High school graduate level | Indian NCERT Class 10 |
-| **Primary Flow** | Foundation → prerequisite → concept | Problem → steps → answer |
-| **Video Style** | Pedagogical explanation | 70% solving, 30% explaining (interleaved) |
-| **Agent 1** | **ConceptAnalyzer** - Extract concept, domain, level | **ProblemAnalyzer** - Extract given, find, constraints |
-| **Agent 2** | **PrerequisiteExplorer** - Recursive prerequisites | **SolutionExplorer** - Build solution step tree |
-| **Agent 5** | **NarrativeComposer** - Pedagogical narrative | **SolutionComposer** - 70/30 solve-explain pattern |
-| **Visuals** | Generic educational (equations, diagrams) | Problem-specific (FBD, trajectory, circuit, color-coded) |
-| **Color Coding** | Conceptual emphasis | Given=GREEN, Unknown=YELLOW, Focus=BLUE, Answer=GOLD |
+| Aspect                  | Teaching Mode                                        | Problem-Solving Mode                                     |
+| ----------------------- | ---------------------------------------------------- | -------------------------------------------------------- |
+| **Input**               | Concept name (e.g., "quantum tunneling")             | LaTeX problem statement with Given/Find                  |
+| **Output Structure**    | Concept tree (prerequisites)                         | Solution tree (steps)                                    |
+| **Foundation Baseline** | High school graduate level                           | Indian NCERT Class 10                                    |
+| **Primary Flow**        | Foundation → prerequisite → concept                  | Problem → steps → answer                                 |
+| **Video Style**         | Pedagogical explanation                              | 70% solving, 30% explaining (interleaved)                |
+| **Agent 1**             | **ConceptAnalyzer** - Extract concept, domain, level | **ProblemAnalyzer** - Extract given, find, constraints   |
+| **Agent 2**             | **PrerequisiteExplorer** - Recursive prerequisites   | **SolutionExplorer** - Build solution step tree          |
+| **Agent 5**             | **NarrativeComposer** - Pedagogical narrative        | **SolutionComposer** - 70/30 solve-explain pattern       |
+| **Visuals**             | Generic educational (equations, diagrams)            | Problem-specific (FBD, trajectory, circuit, color-coded) |
+| **Color Coding**        | Conceptual emphasis                                  | Given=GREEN, Unknown=YELLOW, Focus=BLUE, Answer=GOLD     |
 
 ## Solution Tree Structure
 
@@ -135,6 +135,7 @@ Different types of problems require different visual approaches. The **VisualDes
 ### Physics Problems
 
 #### Projectile Motion
+
 - **Visuals**: Coordinate system (x-y axes), parabolic trajectory, initial velocity vector, decomposed components
 - **Free Body Diagram (FBD)**: At launch, show velocity components
 - **Animation Sequence**:
@@ -145,18 +146,21 @@ Different types of problems require different visual approaches. The **VisualDes
 - **Color Coding**: Initial velocity GREEN, trajectory BLUE, final positions GOLD
 
 #### Dynamics (Forces, Newton's Laws)
+
 - **Visuals**: Free Body Diagram (FBD) is MANDATORY
 - **Elements**: Object as dot or simple shape, force arrows with labels
 - **Arrow Convention**: Length proportional to magnitude, color by type (gravity=RED, normal=BLUE, friction=ORANGE, applied=GREEN)
 - **Animation**: Show net force, then show acceleration in same direction
 
 #### Circuits
+
 - **Visuals**: Circuit schematic with standard symbols
 - **Elements**: Battery (parallel lines), resistor (zigzag), wire (straight lines), current direction (arrows)
 - **Color Coding**: Given resistance values GREEN, unknown currents/voltages YELLOW, current flow animated with moving dots
 - **Annotations**: Label each component with value, mark nodes
 
 #### Energy Conservation
+
 - **Visuals**: Energy bar charts, position diagrams
 - **Elements**: KE bar (BLUE), PE bar (RED), Total E line (GOLD)
 - **Animation**: Transform between KE and PE as object moves
@@ -164,6 +168,7 @@ Different types of problems require different visual approaches. The **VisualDes
 ### Chemistry Problems
 
 #### Stoichiometry
+
 - **Visuals**: Mole calculation grid (table format)
 - **Elements**:
   ```
@@ -176,27 +181,32 @@ Different types of problems require different visual approaches. The **VisualDes
 - **Chemical Equation**: Display balanced equation, show mole ratio arrows
 
 #### Balancing Equations
+
 - **Visuals**: Equation with coefficient boxes
 - **Animation**: Incrementally adjust coefficients, count atoms on each side, balance
 
 #### Molecular Structure
+
 - **Visuals**: Ball-and-stick or Lewis dot structures
 - **Color by Atom**: H=WHITE, C=BLACK, O=RED, N=BLUE (standard CPK coloring)
 
 ### Mathematics Problems
 
 #### Quadratic Equations / Optimization
+
 - **Visuals**: Parabola on coordinate axes
 - **Elements**: Vertex (max/min point), roots (x-intercepts), axis of symmetry
 - **Animation**: Plot parabola, mark critical points, show calculation alongside graph
 - **Color Coding**: Given coefficients GREEN, roots/vertex GOLD
 
 #### Trigonometry
+
 - **Visuals**: Unit circle, right triangle
 - **Elements**: Angle arc, sides labeled (opposite, adjacent, hypotenuse)
 - **Animation**: Sweep angle, show ratio calculations
 
 #### Geometry
+
 - **Visuals**: Figures to scale
 - **Animation**: Construct step-by-step (given → construct → derive)
 - **Labels**: All given measurements GREEN, unknowns YELLOW, answer GOLD
@@ -263,6 +273,7 @@ The 6-agent pipeline adapts as follows for problem-solving:
 **Task**: Parse the LaTeX problem statement and extract metadata.
 
 **Output JSON Schema**:
+
 ```json
 {
   "subject": "Physics" | "Chemistry" | "Mathematics" | "Biology",
@@ -281,6 +292,7 @@ The 6-agent pipeline adapts as follows for problem-solving:
 Input: "A projectile is fired with initial velocity 20 m/s at 30° to the horizontal. Find the maximum height and range. (g = 10 m/s²)"
 
 Output:
+
 ```json
 {
   "subject": "Physics",
@@ -302,12 +314,14 @@ Output:
 **Task**: Build a solution tree (step dependency graph) instead of a concept tree (prerequisite graph).
 
 **Key Differences from PrerequisiteExplorer**:
+
 1. **Ask**: "What are the solution steps for this problem?" NOT "What are the prerequisites for this concept?"
 2. **Foundation**: Stop at NCERT Class 10 concepts (see `ncert-class10-foundation.md`) NOT high school graduate level
 3. **Structure**: DAG of solution steps, NOT prerequisite concepts
 4. **Node Type**: Solution step with operation and equations, NOT concept with prerequisites
 
 **Algorithm**:
+
 1. Identify the final answer (what we need to find)
 2. Work backwards: "What do I need to calculate THIS?"
 3. For each dependency, recursively ask: "What do I need to calculate THIS?"
@@ -323,6 +337,7 @@ Output:
 **Task**: For each solution step, add mathematical detail.
 
 **Additions for Problem-Solving Mode**:
+
 - Explicitly mark which variables are **given** (from problem) vs **derived** (from previous steps)
 - Include numerical values alongside algebraic expressions
 - Show units at each step
@@ -332,6 +347,7 @@ Output:
 **Task**: For each solution step, specify visual elements and animations.
 
 **Additions for Problem-Solving Mode**:
+
 1. **Problem Type Recognition**: Identify (projectile, circuit, stoichiometry, etc.) and apply appropriate visual strategy (see "Problem Type Visual Strategies")
 2. **Color Coding**: Apply standard color system (given=GREEN, unknown=YELLOW, etc.)
 3. **Problem-Specific Visuals**:
@@ -341,6 +357,7 @@ Output:
    - Graphs for optimization/functions
 
 **Output Additions**:
+
 ```json
 {
   "step_number": 2,
@@ -365,6 +382,7 @@ Output:
 **70/30 Solve-Explain Pattern**:
 
 For EACH solution step:
+
 1. **Solving Phase (15 seconds)**:
    - Show the mathematical operation
    - Perform substitution/simplification
@@ -376,11 +394,14 @@ For EACH solution step:
    - Reference to underlying concept
 
 **Structure**:
+
 ```markdown
 ## Scene N: Step K - [Operation Name] (timestamp - timestamp)
 
 ### Solving Phase (15s)
+
 [Detailed Manim instructions for mathematical work]
+
 - Write equation: [LaTeX]
 - Highlight focus term in BLUE
 - Substitute values (GREEN for given, ORANGE for previous results)
@@ -388,6 +409,7 @@ For EACH solution step:
 - Display result in ORANGE box (intermediate) or GOLD box (final answer)
 
 ### Explaining Phase (5s)
+
 Display text or narration: "We use [concept name] because [brief reason in 1 sentence]."
 Reference: NCERT Class 10 [topic] or JEE [topic]
 
@@ -395,10 +417,12 @@ Transition: [How to move to next step]
 ```
 
 **Example**:
+
 ```markdown
 ## Scene 3: Step 2 - Decompose Velocity (0:10 - 0:30)
 
 ### Solving Phase (15s)
+
 - Display the initial velocity vector: u = 20 m/s at 30° (GREEN arrow)
 - Draw right triangle showing decomposition
 - Write equations:
@@ -409,6 +433,7 @@ Transition: [How to move to next step]
 - Show results in ORANGE boxes: u_x = 17.32 m/s, u_y = 10 m/s
 
 ### Explaining Phase (5s)
+
 Display text: "We resolve the velocity vector using trigonometry to separate horizontal and vertical motion, which are independent."
 Reference: NCERT Class 11 Physics - Motion in a Plane
 
@@ -420,6 +445,7 @@ Transition: Fade out triangle, keep component values on screen for next step
 **Task**: Generate working Manim Python code from the verbose prompt.
 
 **Additions for Problem-Solving Mode**:
+
 1. Import color constants: `GREEN, YELLOW, BLUE, GOLD, ORANGE`
 2. Apply color coding as specified in verbose prompt
 3. Implement problem-specific visual patterns (FBD, trajectory, etc.) using helper methods
@@ -432,6 +458,7 @@ When the input is a LaTeX problem statement, extract the following:
 ### Pattern Recognition
 
 Look for keywords:
+
 - **Given**: "Given:", "Let", "A … with …", numerical values with units
 - **Find**: "Find:", "Calculate:", "Determine:", "Solve for:", "Prove that:", question mark at end
 - **Constraints**: "assuming", "neglecting", "ideal", "no [air resistance/friction]", "at equilibrium"
@@ -439,6 +466,7 @@ Look for keywords:
 ### Extraction Example
 
 **Input**:
+
 ```
 A ball is thrown vertically upward with a speed of 25 m/s.
 Given: Initial velocity u = 25 m/s, g = 10 m/s²
@@ -447,6 +475,7 @@ Assume no air resistance.
 ```
 
 **Extracted**:
+
 ```json
 {
   "problem_statement": "A ball is thrown vertically upward with a speed of 25 m/s.",
@@ -454,14 +483,8 @@ Assume no air resistance.
     "initial_velocity_u": "25 m/s",
     "acceleration_due_to_gravity_g": "10 m/s²"
   },
-  "find": [
-    "maximum height reached",
-    "time to return to ground"
-  ],
-  "constraints": [
-    "no air resistance",
-    "vertical motion only"
-  ]
+  "find": ["maximum height reached", "time to return to ground"],
+  "constraints": ["no air resistance", "vertical motion only"]
 }
 ```
 
@@ -472,6 +495,7 @@ The hallmark of JEE/NEET revision videos is the balance between **doing** and **
 ### Timing Guidelines
 
 For a solution with **N steps**:
+
 - Total duration ≈ **N × 20 seconds** (15s solving + 5s explaining per step)
 - Plus 10s for problem statement display
 - Plus 5s for final answer emphasis
@@ -505,17 +529,20 @@ Scene N+1: Final Answer Emphasis (5s)
 ### Explanation Content Guidelines
 
 Explaining phases should:
+
 1. **Be concise**: 1 sentence, max 2 sentences
 2. **Reference foundation**: "Using NCERT Class 10 [concept]" or "Applying JEE [concept]"
 3. **Justify the step**: "We use X because Y" not just "This is X"
 4. **Avoid redundancy**: Don't re-explain basic arithmetic or obvious algebra
 
 **Good Examples**:
+
 - "We resolve the vector using trigonometry because horizontal and vertical motions are independent."
 - "At maximum height, vertical velocity becomes zero according to the kinematic equations."
 - "Using the mole ratio from the balanced equation, 1 mole of CaCO₃ produces 1 mole of CO₂."
 
 **Bad Examples** (too long, redundant):
+
 - "Now we are going to substitute the values we found earlier into this equation and then we will simplify it step by step."
 - "Using the formula for maximum height which we derived from the equations of motion..."
 - "Two plus two equals four." (obvious arithmetic)

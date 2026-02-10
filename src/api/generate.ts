@@ -12,7 +12,7 @@ const gateway = createGateway({
 interface GenerateRequest {
   topic: string;
   model?: string;
-  mode?: 'teaching' | 'problem-solving';
+  mode?: "teaching" | "problem-solving";
 }
 
 export async function handleGenerate(body: GenerateRequest) {
@@ -33,11 +33,12 @@ export async function handleGenerate(body: GenerateRequest) {
   const system = getSystemPrompt(resolvedModel);
 
   // Add mode hint to prompt
-  const modeHint = mode === 'problem-solving'
-    ? "\n\nMODE: Problem-Solving (JEE/NEET). Use solution tree, 70/30 solve-explain, color coding (GREEN=given, YELLOW=unknown, BLUE=focus, GOLD=answer), NCERT Class 10 baseline."
-    : mode === 'teaching'
-    ? "\n\nMODE: Teaching (concept explanation from first principles)."
-    : "";  // Default: no hint, let system detect from topic content
+  const modeHint =
+    mode === "problem-solving"
+      ? "\n\nMODE: Problem-Solving (JEE/NEET). Use solution tree, 70/30 solve-explain, color coding (GREEN=given, YELLOW=unknown, BLUE=focus, GOLD=answer), NCERT Class 10 baseline."
+      : mode === "teaching"
+        ? "\n\nMODE: Teaching (concept explanation from first principles)."
+        : ""; // Default: no hint, let system detect from topic content
 
   console.log("🚀 Calling AI model with streamText...");
   const result = streamText({
